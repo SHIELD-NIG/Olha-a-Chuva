@@ -1,0 +1,567 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#centralizarLoc {
+  transition: transform 0.2s ease; /* Adiciona uma transição suave para a animação */
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Adicione uma sombra */
+}
+
+#centralizarLoc:hover {
+  transform: scale(1.1);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.6); /* Aumente a sombra ao passar o mouse */
+}
+
+
+#overlay {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.custom-alert {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.alert-message {
+  margin-right: 10px;
+}
+
+.close-alert {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+
+
+#main {
+  display: none;
+}
+
+#uploadMessage {
+  color: red;
+}
+
+.navbar {
+  height: 85px; /* Mantido o mesmo tamanho da antiga navbar */
+  background: #273a5d;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Distribui os elementos com espaço entre eles */
+  width: 100%; /* Adicionei essa linha para preencher a tela toda */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+
+.logo {
+  padding-left: 20px; /* Espaço à esquerda */
+  filter: drop-shadow(1px 1px 1px #121212);
+}
+
+.logo-texto {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-size: 17.5px;
+}
+
+.logo-img {
+  width: auto;
+  height: auto;
+  text-align: center;
+  filter: drop-shadow(1px 1px 1px #121212);
+}
+
+.navbar-brand {
+  margin: 0;
+}
+
+.logo-img-oac {
+  width: auto;
+  height: auto;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-bar-inner-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar-container {
+  width: 45%;
+  margin-right: 10%;
+  margin-left: 10%;
+  margin: 0 auto; /* Centraliza horizontalmente */
+  height: 0px; /* Mantido o tamanho da searchbox */
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.search-bar {
+  width: 100%; /* Mantido o tamanho da searchbox */
+  height: 50px;
+  border: none;
+  border-radius: 30px;
+  padding-left: 55px; /* Adicionei um espaçamento à esquerda do texto */
+  font-size: 19px; /* Tamanho da fonte diminuído */
+}
+
+.search-bar:focus {
+  outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px !important;
+  color: #191919;
+  left: 1px; /* Aumentei o valor de left para afastar o ícone da borda */
+  top: 50%; /* Adicionei essa linha para centralizar o ícone verticalmente */
+  transform: translateY(
+    -50%
+  ); /* Adicionei essa linha para ajustar o ícone verticalmente */
+  font-size: 30px;
+}
+
+.search-bar-inner-container .search-icon {
+  padding-left: 5px; /* afastar o ícone da borda */
+}
+
+.button {
+  width: 15%;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px; /* Tamanho da fonte diminuído */
+  color: white;
+  background-color: #0f2027;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+#snackbar {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  z-index: 1;
+}
+
+
+/* Esse código esconde a seta da datalist no Chrome */
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+/* Esse código esconde a seta da datalist no Firefox */
+input[list]::-moz-focus-inner {
+  border: 0;
+}
+
+input::-ms-clear {
+  display: none;
+}
+
+
+/* Removi o estilo para o dropdown do usuário e usei o bootstrap */
+
+/* Adicionei um estilo para a navbar ficar fixa no topo e não sobrepor o conteúdo */
+.navbar-fixed-top {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+}
+
+body {
+  padding-top: 85px; /* Adicionei um espaçamento no topo do corpo para compensar a altura da navbar */
+  font-family: Arial, sans-serif; /* Mantive a fonte do corpo */
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+}
+
+#bottomNavbar {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+#markerModal,
+#markerDetails,
+#weatherForecast {
+  margin-top: 20px;
+}
+
+.autocomplete {
+  position: relative;
+}
+
+.sugestoes-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 5px;
+  z-index: 1;
+  display: none;
+}
+
+.sugestao-item {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.sugestao-item:hover {
+  background-color: #f1f1f1;
+}
+
+.modal {
+  z-index: 1050;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0.25rem;
+}
+
+.leaflet-popup-content {
+  margin: 1rem;
+}
+
+#searchInput {
+  border-radius: 30px;
+}
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  top: 0;
+  right: 0; /* Posiciona a barra lateral à direita da tela */
+  background-color: #08538c;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  z-index: 3;
+}
+
+/* Adicione estilos para os links da barra lateral */
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #f9f9f9;
+  display: block;
+  transition: 0.3s;
+  text-align: left;
+}
+
+/* Altere a cor dos links ao passar o mouse */
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+/* Adicione estilos para o botão de fechar */
+.sidebar .closebtn {
+  position: absolute;
+  top: 10px;
+  right: 5px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.sidebar h2 {
+  color: white;
+  margin: 0;
+  padding: 8px 8px 8px 32px;
+  text-align: left;
+}
+
+.sidebar .divider {
+  border-bottom: 1px solid #818181;
+  margin: 8px 8px;
+}
+
+.openbtn {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: white;
+  margin-left: auto;
+  line-height: 60px;
+}
+
+.openbtn img {
+  height: 35px;
+  border-radius: 50%;
+  margin-left: auto;
+}
+
+fixed-element {
+  position: fixed;
+}
+
+/* Adicione estilos para o conteúdo da página quando a barra lateral estiver aberta */
+#main {
+  padding: 16px;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  /* Aplique esses estilos se a largura da tela for menor ou igual a 600px */
+
+  @keyframes jumpOut {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%) scale(0.8);
+      opacity: 0;
+    }
+  }
+
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
+
+  .logo {
+    width: auto; /* Ajuste a largura da logo de acordo com o conteúdo */
+    text-align: center; /* Centralize a logo horizontalmente */
+    padding-left: 5px;
+  }
+
+  .logo-img {
+    width: 80px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .logo-texto {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 17px;
+  }
+
+  .search-bar-container {
+    transition: width 0.3s ease-in-out;
+    width: 80px;
+    position: relative;
+    text-align: center;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto; /* Empurra a barra de pesquisa para a direita */
+    margin-right: auto; /* Empurra a barra de pesquisa para a esquerda */
+  }
+
+  .search-bar-container:focus-within .search-bar {
+    width: 200px; /* Ajuste a largura desejada quando estiver em foco */
+    transform: translateY(0px) scale(1.2); /* Abaixa um pouco e aumenta o tamanho */
+    padding-left: 18px;
+    font-size: 13px;
+    display: inline-block;
+  }
+
+  .search-bar {
+    transition: width 0.3s ease-in-out, transform 0.3s ease-in-out;
+    width: 80px; /* Largura inicial */
+    margin-left: auto; /* Centraliza horizontalmente */
+    margin-right: auto; /* Centraliza horizontalmente */
+  }
+
+  .search-bar:focus + .search-icon {
+    transform: translateX(100%);
+    z-index: 3; /* Garanta que o ícone esteja acima do overlay */
+  }
+
+  #overlay.active + .navbar .search-bar-container .search-bar {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4; /* Garanta que o input de pesquisa esteja acima do overlay */
+  }
+
+  /* Quando o overlay estiver visível, mostre o ícone de pesquisa por trás dele */
+  #overlay.active + .navbar .search-bar-container .search-icon {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5; /* Garanta que o ícone de pesquisa esteja acima do input de pesquisa */
+  }
+
+  #overlay.active {
+    display: block;
+    opacity: 1;
+    z-index: 3; /* Certifique-se de que o overlay esteja acima de todos os outros elementos */
+  }
+
+  #overlay {
+    position: fixed;
+    display: none;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 10px; /* Ajuste a posição esquerda do ícone conforme necessário */
+    color: #191919;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 30px;
+  }
+
+  #centralizarLoc {
+    transition: transform 0.2s ease; /* Adiciona uma transição suave para a animação */
+  }
+  
+  #centralizarLoc:active {
+    transform: scale(1.1); /* Ajuste o valor conforme necessário para o tamanho desejado */
+  }
+  
+
+  #userDropdown,
+  #signInButtonPc {
+    transition: opacity 0.3s ease-in-out;
+    display: none;
+  }
+
+  #main {
+    display: block;
+    margin-left: 0;
+  }
+
+}
+
+
+@media screen and (max-height: 450px) {
+  .sidebar {
+    padding-top: 15px;
+  }
+  .sidebar a {
+    font-size: 18px;
+  }
+
+  #userDropdown,
+  #userDropdownToggle {
+    display: none !important;
+  }
+
+  .search-bar {
+    transition: width 0.3s ease-in-out;
+  }
+
+  .navbar {
+    display: flex;
+    justify-content: center; /* Centraliza os itens horizontalmente */
+    text-align: center;
+    flex-direction: column;
+  }
+
+  .search-bar:focus {
+    width: 100px;
+  }
+
+  .search-bar-container {
+    width: 80px; /* Ajuste a largura da search box de acordo com o conteúdo */
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 0;
+  }
+
+  #main {
+    transition: opacity 0.5s ease-in-out;
+    display: block;
+    margin-left: 0;
+  }
+}
+
+marker-details-link {
+  outline: none;
+}
+
+.hide {
+  display: none !important;
+}
+
+.move-left {
+  left: -100px;
+}
+
+.search-bar.sidebar-open {
+  margin-left: auto; /* Empurra a barra de pesquisa para a direita */
+  margin-right: auto; /* Empurra a barra de pesquisa para a esquerda */
+}

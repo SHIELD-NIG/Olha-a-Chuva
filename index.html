@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Olha a Chuva</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <link
+      rel="shortcut icon"
+      href="./assets/favicon/favicon.ico"
+      type="image/x-icon"
+    />
+    <link rel="manifest" href="./manifest/manifest.webmanifest" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <div class="navbar navbar-fixed-top">
+      <div class="logo">
+        <a class="navbar-brand logo-texto" href="#">
+          <img class="logo-img" src="./assets/logo.png" alt="logo pingo" />
+          <img
+            class="logo-img"
+            src="./assets/olhaachuva.png"
+            alt="logo olha a chuva"
+          />
+        </a>
+      </div>
+
+      <div class="search-bar-container">
+        <i class="fa fa-search search-icon"></i>
+        <button
+          id="pesquisar"
+          type="button"
+          onclick="buscarLocal()"
+          style="border: none; background: none; position: absolute; left: 10px"
+        ></button>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-bar"
+          placeholder=""
+          list="myList"
+        />
+        <datalist id="myList"></datalist>
+      </div>
+
+      <!-- Usei o bootstrap para o dropdown do usuário -->
+      <div id="userDropdown" class="dropdown">
+        <div class="dropdown ml-auto">
+          <a
+            class="btn btn-secondary dropdown-toggle"
+            href="#"
+            role="button"
+            id="userDropdownToggle"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Olá, <span id="userName"></span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="userDropdownToggle">
+            <a
+              class="dropdown-item"
+              href="#"
+              onclick="exibirMeusMarcadores()"
+              data-toggle="modal"
+              data-target="#myMarkersModal"
+              >Meus Marcadores</a
+            >
+            <!--<a class="dropdown-item" href="#" data-toggle="modal" data-target="#enchentesModal"></a>-->
+            <a
+              class="dropdown-item"
+              href="#"
+              data-toggle="modal"
+              data-target="#configModal"
+              >Configurações</a
+            >
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" onclick="signOut()">Sair</a>
+          </div>
+        </div>
+      </div>
+
+      <button
+        id="signInButtonPc"
+        class="btn btn-primary ml-2"
+        onclick="signInWithGoogle()"
+      >
+        <i class="fab fa-google"></i> Entrar com o Google
+      </button>
+
+      <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+          >&times;</a
+        >
+        <h2>Olá, <span id="userNameSidebar"></span></h2>
+        <a
+          href="#"
+          onclick="exibirMeusMarcadores()"
+          data-toggle="modal"
+          data-target="#myMarkersModal"
+          >Meus Marcadores</a
+        >
+        <a href="#" data-toggle="modal" data-target="#configModal"
+          >Configurações</a
+        >
+        <div class="divider"></div>
+        <a href="#" onclick="signOut()">Sair</a>
+        <button
+          id="signInButton"
+          class="btn btn-primary ml-2"
+          onclick="signInWithGoogle()"
+        >
+          <i class="fab fa-google"></i> Entrar com o Google
+        </button>
+      </div>
+
+      <div id="main">
+        <button class="openbtn" onclick="openNav()">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <div id="overlay"></div>
+    </div>
+
+    <div id="marker-info" class="marker-info"></div>
+
+    <!-- Modal for My Markers -->
+    <div id="myMarkersModal" class="modal fade modal-spacing" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Meus Marcadores</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="myMarkersList"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de detalhes -->
+    <div
+      class="modal fade"
+      id="markerInfoModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="enchentesModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="enchentesModalLabel">Detalhes</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="enchentesList">
+              <!-- Aqui serão exibidos os marcadores existentes -->
+            </div>
+
+            <div id="commentsSection">
+              <h4>Comentários</h4>
+              <div id="commentsList">
+                <!-- Comentários serão exibidos aqui -->
+              </div>
+              <!-- Formulário para adicionar comentário -->
+              <form id="commentForm">
+                <div class="form-group">
+                  <textarea
+                    class="form-control"
+                    id="commentText"
+                    rows="3"
+                    placeholder="Escreva um comentário"
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Enviar Comentário
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de Configurações -->
+
+    <div
+      class="modal fade"
+      id="configModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="enchentesModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="enchentesModalLabel">Configurações</h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="configuracoesList">
+              <form>
+                <div class="form-group">
+                  <label for="enderecoInput">Endereço:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="endereco"
+                    placeholder="Digite seu endereço"
+                    list="myList"
+                  />
+                  <datalist id="myList"></datalist>
+                  <br />
+                  <h5>
+                    Converse com nosso bot do telegram e receba notificações no
+                    seu celular
+                  </h5>
+                  <p>
+                    Seu código de usuário: <b><span id="userId"></span></b>
+                  </p>
+                  <a href="https://t.me/olhaachuva_bot" target="_blank"
+                    >Acesse ele aqui!</a
+                  >
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="salvarEndereco()"
+            >
+              Salvar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Area -->
+
+    <div id="map" style="height: 100vh; width: 100%; position: relative"></div>
+
+    <div
+      id="button-container"
+      style="position: absolute; bottom: 10px; right: 10px; z-index: 1000"
+    >
+      <button
+        id="centralizarLoc"
+        class="btn btn-primary btn-fab"
+        style="
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          border: none;
+          padding: 0;
+        "
+      >
+        <i
+          class="fas fa-map-marker-alt"
+          style="font-size: 30px; line-height: 60px"
+        ></i>
+      </button>
+    </div>
+
+ <!-- Scrollable modal -->
+ <div
+ class="modal fade"
+ id="inicioModal"
+ tabindex="-1"
+ role="dialog"
+ aria-labelledby="inicioModalLabel"
+ aria-hidden="true"
+>
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="inicioModalLabel">Bem-vindo ao Olha a Chuva!</h5>
+       <button
+         type="button"
+         class="close"
+         data-dismiss="modal"
+         aria-label="Close"
+       >
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div class="modal-body">
+      <p><b>Olá comunidade,</b><br><br>Essa é uma demonstração da aplicação Olha a Chuva que a equipe SHIELD NIG levará para o TBR (Torneio Brasil Robótica). Algumas função estão desabilitadas para testes. A versão final será polida para o lançamento, de acordo com os feedbacks recebidos.<br><br>
+
+        Esta aplicação tem como proposta informar sobre os riscos de inundação no Bairro da Luz a partir do nosso mapa colaborativo. Exibiremos informações em tempo real sobre áreas propensas a inundações.<br><br>
+        
+        Nosso objetivo é manter a população segura e informada. Participe e nos ajude nessa jornada!<br><br>
+
+        <i>Responda nossa pesquisa de satisfação: <a href="https://forms.gle/oRFojaSFs6pFHQUz6">https://forms.gle/oRFojaSFs6pFHQUz6</a></i>
+        </p>
+     </div>
+     <div class="modal-footer">
+       <button
+         type="button"
+         class="btn btn-secondary"
+         data-dismiss="modal"
+       >
+         Fechar
+       </button>
+     </div>
+   </div>
+ </div>
+</div>
+
+    <div id="custom-alert" class="custom-alert">
+      <span id="alert-message" class="alert-message"></span>
+      <button id="close-alert" class="close-alert" onclick="fecharAlerta()">
+        &times;
+      </button>
+    </div>
+
+    <!-- Modal for Marker Selection -->
+    <div id="markerModal" class="modal fade" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Criação do Marcador</h5>
+            <button type="button" class="close" data-dismiss="modal">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="riskLevel"
+                  >Nível de Risco: <span class="text-danger">*</span></label
+                >
+                <select class="form-control" id="riskLevel" required>
+                  <option value="alto">Alto</option>
+                  <option value="medio">Médio</option>
+                  <option value="baixo">Baixo</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="comment"
+                  >Comentário: <span class="text-danger">*</span></label
+                >
+                <textarea spellcheck="true"
+                  class="form-control"
+                  id="comment"
+                  rows="3"
+                  required
+                ></textarea>
+              </div>
+              <!-- Adicionar campo de upload de vídeo -->
+              <div class="form-group">
+                <label for="video">Vídeo (limite de 50mb):</label>
+                <input type="file" class="form-control-file" id="video" />
+              </div>
+              <div id="uploadMessage" style="display: none">
+                Aguarde, estamos criando o marcador...
+              </div>
+              <!-- Adicionar campos ocultos para armazenar a latitude e longitude -->
+              <input type="hidden" id="latitudeInput" />
+              <input type="hidden" id="longitudeInput" />
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="saveMarker()"
+            >
+              Salvar
+            </button>
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-dismiss="modal"
+            >
+              Fechar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Link to Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+    <script src="https://unpkg.com/unorm@1.4.1/lib/unorm.js"></script>
+    <!-- Link to OpenStreetMap CDN -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
+    <!-- Add your custom JavaScript and map-related code here -->
+    <script src="./scripts/app.js"></script>
+    <script src="./scripts/sw.js"></script>
+    <script src="./scripts/mobile.js"></script>
+    <script src="./scripts/inicio.js"></script>
+    <script src="./scripts/fotoPerfil.js"></script>
+    <script src="./scripts/buscarLocal.js"></script>
+    <script src="./scripts/comentario.js"></script>
+    <script src="./scripts/endereco.js"></script>
+    <script src="./scripts/loc.js"></script>
+    <script src="./scripts/marcadores.js"></script>
+    <script src="./scripts/push.js"></script>
+    <script src="./scripts/riscos.js"></script>
+
+    <script>
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          // O usuário está logado
+          var userId = user.uid;
+          var photoURL = user.photoURL;
+          var openbtn = document.querySelector(".openbtn");
+          var img = document.createElement("img");
+          img.src = photoURL;
+          openbtn.innerHTML = "";
+          openbtn.appendChild(img);
+          document.getElementById("userId").textContent = userId;
+          var firstName = user.displayName.split(" ")[0];
+          document.getElementById("userName").innerText = firstName;
+          document.getElementById("userNameSidebar").innerText = firstName;
+        } else {
+          // O usuário não está logado
+          var openbtn = document.querySelector(".openbtn");
+          openbtn.innerHTML = '<i class="fa fa-bars" aria-hidden="true"></i>';
+          document.getElementById("userId").textContent = "";
+        }
+      });
+
+      var provider = new firebase.auth.GoogleAuthProvider();
+
+      function signInWithGoogle() {
+        // Realiza o login com o Google
+        firebase
+          .auth()
+          .signInWithPopup(provider)
+          .then(function (result) {
+            var user = result.user;
+            // Sucesso no login
+            console.log("Usuário logado com sucesso: ", user);
+
+            // Esconder o botão de login e mostrar o dropdown com a foto e o nome do usuário
+            document.getElementById("signInButton").style.display = "none";
+            document.getElementById("signInButtonPc").style.display = "none";
+            document.getElementById("userDropdown").classList.remove("d-none");
+            var firstName = user.displayName.split(" ")[0];
+            document.getElementById("userName").innerText = firstName;
+            document.getElementById("userNameSidebar").innerText = firstName;
+          })
+          .catch(function (error) {
+            // Erro no login
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.error("Erro no login com o Google: ", errorMessage);
+          });
+      }
+
+      function signOut() {
+        // Fazer logout do usuário
+        firebase
+          .auth()
+          .signOut()
+          .then(function () {
+            // Sucesso no logout
+            console.log("Usuário deslogado com sucesso.");
+
+            // Esconder o dropdown e mostrar o botão de login novamente
+            document.getElementById("userDropdown").classList.add("d-none");
+            document.getElementById("signInButton").style.display = "block";
+            document.getElementById("signInButtonPc").style.display = "block";
+          })
+          .catch(function (error) {
+            // Erro no logout
+            console.error("Erro no logout: ", error);
+          });
+      }
+
+      // Configurar a persistência local (usuário permanecerá logado mesmo após recarregar a página)
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          // Usuário está logado
+          document.getElementById("signInButton").style.display = "none";
+          document.getElementById("signInButtonPc").style.display = "none";
+          document.getElementById("userDropdown").classList.remove("d-none");
+          document.getElementById("userName").innerText = user.displayName;
+          document.querySelector("#mySidebar h2").style.display = "block";
+          document.querySelector("#mySidebar .divider").style.display = "block";
+          document.querySelectorAll("#mySidebar a").forEach((a) => {
+            a.style.display = "block";
+          });
+        } else {
+          // Usuário não está logado
+          document.getElementById("signInButton").style.display = "block";
+          document.getElementById("signInButtonPc").style.display = "block";
+          document.getElementById("userDropdown").classList.add("d-none");
+          document.querySelector("#mySidebar h2").style.display = "none";
+          document.querySelector("#mySidebar .divider").style.display = "none";
+          // Oculta todos os links, exceto o botão de fechar
+          document.querySelectorAll("#mySidebar a").forEach((a) => {
+            if (a.classList.contains("closebtn")) {
+              a.style.display = "block"; // Mantém o botão de fechar visível
+            } else {
+              a.style.display = "none"; // Oculta os outros links
+            }
+          });
+        }
+      });
+
+      function obterEnchentesProximas() {
+        const apiKey = "b06a0ea99bb4492880a124458230208"; // Substitua pela sua chave da API do weather
+        const city = "Rio de Janeiro"; // Cidade do Rio de Janeiro
+        const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}`;
+
+        fetch(url)
+          .then((response) => response.json())
+          .then((data) => {
+            // Verificar se há risco de alagamento/enchente
+            if (data && data.current && data.current.precip_mm > 0.1) {
+              // Se houver risco, exibir a mensagem de alerta na página
+              const placesList = document.getElementById("enchentesList");
+              placesList.innerHTML = `<p><b>Risco de alagamento/enchente em ${city}!</b></p>`;
+
+              // Salvar marcador com base na previsão de chuva
+              salvarMarcadorApiTempo(city, data.current.precip_mm);
+            } else {
+              // Se não houver risco, exibir a mensagem de que não há risco na página
+              const placesList = document.getElementById("enchentesList");
+              placesList.innerHTML = `<p>Não há risco de alagamento/enchente em ${city}.</p>`;
+            }
+          })
+          .catch((error) => {
+            // Em caso de erro na chamada da API, exibir mensagem de erro na página
+            console.error("Erro ao obter dados da API:", error);
+            const placesList = document.getElementById("enchentesList");
+            placesList.innerHTML =
+              "<p>Ocorreu um erro ao obter os dados. Por favor, tente novamente mais tarde.</p>";
+          });
+      }
+
+      function salvarMarcadorApiTempo(city, precip_mm) {
+        // Definir o nível de risco com base na quantidade de precipitação
+        let nivelRisco;
+        if (precip_mm > 10) {
+          nivelRisco = "alto";
+        } else if (precip_mm > 5) {
+          nivelRisco = "medio";
+        } else {
+          nivelRisco = "baixo";
+        }
+
+        // Comentário informando que a previsão de chuva é maior que 0mm
+        const comentario = "Previsão de chuva acima de 0mm";
+
+        // Fazer a busca usando a API Nominatim do OpenStreetMap
+        fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(
+            city
+          )}&format=json`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.length > 0) {
+              // Encontrou resultados, vamos obter as coordenadas da primeira rua encontrada
+              const lat = parseFloat(data[0].lat);
+              const lng = parseFloat(data[0].lon);
+
+              // Chamar a função para salvar o marcador no Firebase com a latitude e longitude da rua encontrada
+              salvarMarcador(lat, lng, nivelRisco, comentario, "");
+            }
+          })
+          .catch((error) => {
+            console.error("Erro na busca de local:", error);
+            alert(
+              "Erro na busca de local. Por favor, tente novamente mais tarde."
+            );
+          });
+      }
+
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("./sw.js").then(
+            function (registration) {
+              // Registro bem-sucedido
+              console.log(".", registration.scope);
+            },
+            function (err) {
+              // Registro falhou
+              console.log("Falha no registro do ServiceWorker: ", err);
+            }
+          );
+        });
+      }
+
+
+    </script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-136EW8PHCF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-136EW8PHCF');
+</script>
+  </body>
+</html>

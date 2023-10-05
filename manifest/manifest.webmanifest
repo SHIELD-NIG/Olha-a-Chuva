@@ -1,0 +1,32 @@
+{
+    "theme_color": "#273a5d",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "scope": "/",
+    "start_url": "/",
+    "name": "Olha a Chuva",
+    "short_name": "Olha a Chuva",
+    "description": "Fique informado sobre os riscos de inundações no Bairro da Luz. Atrav\u00e9s do nosso mapa exibimos informa\u00e7\u00f5es em tempo real sobre \u00e1reas propensas a enchentes. Mantenha-se seguro e informado!",
+    "icons": [
+        {
+            "src": "./icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "./icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "./icon-384x384.png",
+            "sizes": "384x384",
+            "type": "image/png"
+        },
+        {
+            "src": "./icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
