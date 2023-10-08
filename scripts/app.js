@@ -44,7 +44,7 @@ window.addEventListener("resize", function () {
   setTimeout(function () {
     map.invalidateSize();
     map.fitBounds(bounds);
-  }, 200); // Ajuste este valor conforme necessário
+  }, 200); 
 });
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   attribution:
