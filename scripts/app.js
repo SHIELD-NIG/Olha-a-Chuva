@@ -35,10 +35,11 @@ let map = L.map("map", {
   maxBounds: bounds, // Definir os limites do mapa
   maxBoundsViscosity: 1.0, // Impedir que o usuário mova o mapa para fora dos limites
   zoom: 17,
-  minZoom: 15, // Definir o nível mínimo de zoom
+  minZoom: 13, // Definir o nível mínimo de zoom
   tap: true,
   zoomControl: false,
-}).fitBounds(bounds);
+});
+obterLocalizacaoUsuario();
 // Ajustar o mapa para caber nos limites
 window.addEventListener("resize", function () {
   setTimeout(function () {
