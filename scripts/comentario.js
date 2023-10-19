@@ -67,7 +67,7 @@ function excluirComentario(markerId, commentId) {
       };
       db.ref(`markers/${markerId}/comments`).push(commentData);
     } else {
-      // Usuário não autenticado, trate isso de acordo com suas necessidades
+      //todo
     }
   }
 
