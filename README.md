@@ -3,7 +3,7 @@
     <a href="https://olhaachuva.web.app"><img src="https://i.postimg.cc/LsCLwB1t/readme-olhaachuva.png" alt="Olha a Chuva Banner"></a>
 </h1>
 
-> **Uma aplicação focado em alertar sobre inundações ocorrentes no Bairro da Luz.**
+> **Uma aplicação focada em alertar sobre inundações ocorrentes no Bairro da Luz.**
 
 > A aplicação se encontra disponivel para acesso [aqui](https://olhaachuva.com.br). Nosso código fonte está disponível [aqui](https://github.com/isaacsarmento/Olha-a-Chuva).
 
@@ -21,7 +21,7 @@
 - [Agradecimentos](#agradecimentos)
 
 # Sobre
-<p>O presente trabalho se volta para o Bairro da Luz situado na cidade de Nova Iguaçu, Baixada Fluminense. Com o foco principal em abordar as inundações que têm sido regularmente alvo de preocupação da parte de seus residentes. Propõe-se, portanto, a criação de uma aplicação da web, para monitorar e informar moradores da vizinhança a respeito das cheias das águas nos limites do bairro, por meio de dados colhidos da comunidade através da plataforma.</p>
+O presente trabalho se volta para o Bairro da Luz situado na cidade de Nova Iguaçu, Baixada Fluminense. Com o foco principal em abordar as inundações que têm sido regularmente alvo de preocupação da parte de seus residentes. Propõe-se, portanto, a criação de uma aplicação da web, para monitorar e informar moradores da vizinhança a respeito das cheias das águas nos limites do bairro, por meio de dados colhidos da comunidade através da plataforma.
 
 # Objetivos
 
