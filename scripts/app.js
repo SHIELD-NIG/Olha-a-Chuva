@@ -22,13 +22,14 @@ const messaging = firebase.messaging();
 
 // Definir os limites do mapa para o bairro da Luz em Nova Iguaçu, RJ
 const bounds = [
-  [-22.7485, -43.4849],
-  [-22.7696, -43.4555],
+  [-23.079732, -44.636230],  // sudoeste do rj
+  [-21.128633, -40.956055],  // nordeste do rj
 ];
 
+/* modificação rj */
 var luzBounds = L.latLngBounds(
-  L.latLng(-22.755, -43.455), 
-  L.latLng(-22.765, -43.465),  
+  L.latLng(-23.079732, -44.636230), 
+  L.latLng(-21.128633, -40.956055),  
 );
 
 let map = L.map("map", {

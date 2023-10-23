@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((token) => {
         console.log('Token de notificação:', token);
         // Agora que você tem o token, chame a função enviarNotificacaoChuva
-        const lat = -22.7562; // Substitua com a latitude desejada
-        const lon = -43.4605; // Substitua com a longitude desejada
+        const lat = -22.7562; 
+        const lon = -43.4605; 
         enviarNotificacaoChuva(lat, lon, token);
       })
       .catch((error) => {

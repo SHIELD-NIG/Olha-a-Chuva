@@ -5,7 +5,7 @@ async function verificarRiscos(lat, lng, nivelRisco) {
       const response = await fetch(weatherApiUrl);
       const data = await response.json();
   
-
+      // todo lógica de risco rj
       const riscoVerificado = data.current.precip_mm <= 1;
       const quantidadeChuvaMM = data.current.precip_mm; // Nova linha para obter a quantidade de chuva em milímetros
       return { riscoVerificado, quantidadeChuvaMM };

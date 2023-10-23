@@ -6,6 +6,7 @@ async function criarMarcadoresAutomaticos() {
       [-22.7611621, -43.45933125], // avenida abilio augusto tavora
       [-22.7530705, -43.47515201], // rua gerson chernicharo
       [-22.7583138, -43.47666151], // rua dom torquato
+      //todo rj
     ];
   
     try {
@@ -340,8 +341,8 @@ map.on("click", function (e) {
   
   var userMarker = null;
   const bairroDaLuzBounds = L.latLngBounds(
-    L.latLng(-22.7485, -43.4849),
-    L.latLng(-22.7696, -43.4555)
+    L.latLng(-22.7485, -43.4849), //todo rj
+    L.latLng(-22.7696, -43.4555) //todo rj
   );
 
   function exibirMeusMarcadores() {

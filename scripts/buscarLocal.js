@@ -55,8 +55,8 @@ function buscarLocal(inputId) {
         const lon = parseFloat(data[0].lon);
 
         const boundsBuscar = [
-          [-22.7696, -43.4849], // menor latitude, menor longitude
-          [-22.7485, -43.4555], // maior latitude, maior longitude
+          [-23.079732, -44.636230],  // sudoeste do rj
+          [-21.128633, -40.956055],  // nordeste do rj
         ];
 
         if (lat < boundsBuscar[0][0] || lat > boundsBuscar[1][0] || lon < boundsBuscar[0][1] || lon > boundsBuscar[1][1]) {
